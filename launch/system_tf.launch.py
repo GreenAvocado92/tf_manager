@@ -13,12 +13,12 @@ TF_STATIC_TOPIC = '/tf_manager/tf_static'
 
 def generate_launch_description():
     package_share = get_package_share_directory(PACKAGE_NAME)
-    default_yaml = os.path.join(package_share, 'config', 'calibration.yaml')
+    default_yaml = os.path.join(package_share, 'config', 'realsense_calibration.yaml')
     default_pointcloud_yaml = os.path.join(
         package_share, 'config', 'realsense_pointcloud_transform.yaml')
 
     return LaunchDescription([
-        DeclareLaunchArgument('calibration_yaml', default_value=default_yaml),
+        DeclareLaunchArgument('realsense_calibration', default_value=default_yaml),
         DeclareLaunchArgument(
             'pointcloud_config', default_value=default_pointcloud_yaml),
         Node(
@@ -31,7 +31,7 @@ def generate_launch_description():
                 ('/tf_static', TF_STATIC_TOPIC),
             ],
             parameters=[{
-                'calibration_yaml': LaunchConfiguration('calibration_yaml'),
+                'calibration_yaml': LaunchConfiguration('realsense_calibration'),
             }],
         ),
         Node(

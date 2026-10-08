@@ -60,13 +60,13 @@ class PointCloudTfTransformer : public rclcpp::Node {
   }
 
   void cloud_callback(const sensor_msgs::msg::PointCloud2::ConstSharedPtr input) {
-    // if (!input->header.frame_id.empty() && input->header.frame_id != source_frame_id_) {
-    //   RCLCPP_WARN_THROTTLE(
-    //     get_logger(), *get_clock(), 5000,
-    //     "Ignoring cloud with frame_id '%s'; expected '%s'", input->header.frame_id.c_str(),
-    //     source_frame_id_.c_str());
-    //   return;
-    // }
+    if (!input->header.frame_id.empty() && input->header.frame_id != source_frame_id_) {
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 5000,
+        "Ignoring cloud with frame_id '%s'; expected '%s'", input->header.frame_id.c_str(),
+        source_frame_id_.c_str());
+      return;
+    }
 
     geometry_msgs::msg::TransformStamped transform_message;
     try {

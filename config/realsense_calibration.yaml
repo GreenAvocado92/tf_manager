@@ -12,7 +12,7 @@
 # The top-left 3x3 block is the rotation matrix; the final row must be [0, 0, 0, 1].
 # 每项订阅一个 PoseStamped 话题，并发布 parent_frame -> child_frame。
 dynamic_transforms:
-  - topic: /ur/tcp_pose
+  - topic: /jaka_driver/tool_position
     parent_frame: base_link
     child_frame: tool0
 
@@ -20,15 +20,14 @@ static_transforms:
   - parent_frame: tool0
     child_frame: camera_link
     transform_matrix:
-      - [1.0, 0.0, 0.0, 0.450]
-      - [0.0, 1.0, 0.0, 0.000]
-      - [0.0, 0.0, 1.0, 0.800]
-      - [0.0, 0.0, 0.0, 1.000]
+      - [-0.696032, -0.717968,  0.007847, 76.288265]
+      - [0.717946, -0.695781,  0.021035, 31.397180]
+      - [-0.009643,  0.020275,  0.999748, 88.026489]
+      - [0.000000,  0.000000,  0.000000,  1.000000]
   - parent_frame: camera_link
-    child_frame: camera_optical_frame
+    child_frame: realsense_depth_optical_frame
     transform_matrix:
-      - [0.999984622002, 0.005454829428, 0.001018675626, 0.014723849483]
-      - [-0.005454194266, 0.999984920025, -0.000625536311, 0.000024007788]
-      - [-0.001022072509, 0.000619970611, 0.999999284744, 0.000051871841]
+      - [0.9999608397, -0.0081464034, -0.0034604892,  0.0150754750]
+      - [0.0081285043,  0.9999536872, -0.0051554511,  0.0002053896]
+      - [0.0035023273,  0.0051271208,  0.9999807477, -0.0000994109]
       - [0.0, 0.0, 0.0, 1.0]
-    

@@ -5,11 +5,11 @@
 input_xyz_unit: m
 
 # Input and output topics both use sensor_msgs/msg/PointCloud2.
-cloud_topic: /camera/camera/depth/color/points
-output_topic: /camera/depth/points_in_base
+cloud_topic: /rs/realsense/depth/color/points
+output_topic: /camera/points_in_base
 
 # The node queries TF for T_target_source and applies it to every point.
 # source_frame_id specifies how incoming points are interpreted. The node does
 # not validate the received message header.frame_id.
-source_frame_id: camera_optical_frame
+source_frame_id: realsense_depth_optical_frame
 target_frame_id: base_link
