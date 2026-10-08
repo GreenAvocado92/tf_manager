@@ -1,0 +1,34 @@
+# Common ROS/robot coordinate frames:
+#   world: Fixed global reference frame, typically the workcell or map origin.
+#   base_link: Robot base frame. Its origin is usually at the robot mounting centre.
+#   flange: Robot wrist flange frame, attached to the final robot joint.
+#   tcp: Tool Centre Point frame. It is the working point of the end-effector.
+#   camera_link: Camera body frame; its orientation depends on the device mounting.
+#   camera_optical_frame: ROS optical frame convention: +X right, +Y down, +Z forward.
+#   object: Object/workpiece frame, normally defined by vision or a fixture calibration.
+# Frame naming follows the transform direction: parent_frame -> child_frame.
+#
+# Each transform_matrix is a 4x4 homogeneous matrix. Translation uses metres.
+# The top-left 3x3 block is the rotation matrix; the final row must be [0, 0, 0, 1].
+# 每项订阅一个 PoseStamped 话题，并发布 parent_frame -> child_frame。
+dynamic_transforms:
+  - topic: /ur/tcp_pose
+    parent_frame: base_link
+    child_frame: tool0
+
+static_transforms:
+  - parent_frame: tool0
+    child_frame: camera_link
+    transform_matrix:
+      - [1.0, 0.0, 0.0, 0.450]
+      - [0.0, 1.0, 0.0, 0.000]
+      - [0.0, 0.0, 1.0, 0.800]
+      - [0.0, 0.0, 0.0, 1.000]
+  - parent_frame: camera_link
+    child_frame: camera_optical_frame
+    transform_matrix:
+      - [0.999984622002, 0.005454829428, 0.001018675626, 0.014723849483]
+      - [-0.005454194266, 0.999984920025, -0.000625536311, 0.000024007788]
+      - [-0.001022072509, 0.000619970611, 0.999999284744, 0.000051871841]
+      - [0.0, 0.0, 0.0, 1.0]
+    
