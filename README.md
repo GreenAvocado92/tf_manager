@@ -8,6 +8,7 @@
 | --- | --- |
 | `calibration_tf_broadcaster` | 从 YAML 发布静态 TF，并将 `PoseStamped` 转发为动态 TF。 |
 | `pointcloud_tf_transformer` | 查询 TF，逐点转换 `PointCloud2` 的 `x`、`y`、`z` 字段。 |
+| `pointcloud_consumer` | `pointcloud_tf_transformer` 的 Python 实现：查询 TF 并逐点转换 `PointCloud2`。 |
 | `tf_matrix_consumer` | 定期输出指定两 frame 间的 4×4 齐次矩阵，供诊断使用。 |
 
 默认配置由 `config/calibration.yaml` 和 `config/realsense_pointcloud_transform.yaml` 提供：
@@ -177,6 +178,32 @@ ros2 run tf_manager pointcloud_tf_transformer \
   -r /tf:=/tf_manager/tf \
   -r /tf_static:=/tf_manager/tf_static
 ```
+
+### Python 点云转换实现
+
+`pointcloud_consumer` 是 `pointcloud_tf_transformer` 的 Python 等价实现。它使用同一份 YAML
+配置，按输入点云时间戳查询 `T_target_source`，逐点转换 `float32` 的 `x`、`y`、`z` 字段，并将
+成功转换后的输出统一为 **mm**。它保留其他点字段和点云元数据；TF 不可用时原样透传输入点云。
+
+先构建并加载环境：
+
+```bash
+colcon build --packages-select tf_manager
+source install/setup.bash
+```
+
+启动示例：
+
+```bash
+ros2 run tf_manager pointcloud_consumer \
+  --ros-args \
+  -p pointcloud_config:=$(ros2 pkg prefix tf_manager)/share/tf_manager/config/realsense_pointcloud_transform.yaml \
+  -r /tf:=/tf_manager/tf \
+  -r /tf_static:=/tf_manager/tf_static
+```
+
+和 C++ 节点一样，`pointcloud_config` 为必填参数；如需使用项目私有 TF 链，必须同时重映射
+`/tf` 与 `/tf_static`。
 
 ## 查询与诊断
 

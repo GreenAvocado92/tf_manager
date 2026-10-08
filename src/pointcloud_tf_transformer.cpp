@@ -94,8 +94,8 @@ class PointCloudTfTransformer : public rclcpp::Node {
     // TF translations follow ROS convention and are expressed in metres.  Keep
     // all point-cloud coordinates and the transformed output in millimetres.
     const double input_scale_to_mm = input_xyz_unit_ == "m" ? 1000. : 1.0;
-    const tf2::Vector3 translation_in_mm(translation.x() * 1000.0, translation.y() * 1000.0,
-                                         translation.z() * 1000.0);
+    const tf2::Vector3 translation_in_mm(translation.x() * 1.0, translation.y() * 1.0,
+                                         translation.z() * 1.0);
 
     try {
       sensor_msgs::PointCloud2Iterator<float> x(output, "x");
